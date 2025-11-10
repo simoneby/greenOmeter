@@ -1,6 +1,7 @@
 package org.example.greenometer.service
 
 import org.example.greenometer.domain.Produce
+import org.example.greenometer.domain.Tag
 import org.example.greenometer.entities.TagEntity
 import org.example.greenometer.repository.ProduceRepository
 import org.example.greenometer.repository.TagRepository
@@ -17,6 +18,8 @@ class ProduceService(
         return produceEntities.map { Produce.fromEntity(it) }
     }
 
+    fun getProduce(id: String): Produce = Produce.fromEntity(produceRepository.findById(UUID.fromString(id)).get())
+
     fun tagProduce(
         id: String,
         tags: List<String>,
@@ -31,4 +34,6 @@ class ProduceService(
         produceEntity.tags.addAll(tagEntities)
         return Produce.fromEntity(produceRepository.save(produceEntity))
     }
+
+    fun getTags(): List<Tag> = tagRepository.findAll().map { Tag.fromEntity(it) }
 }

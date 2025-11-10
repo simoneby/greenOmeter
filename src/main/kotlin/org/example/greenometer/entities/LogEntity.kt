@@ -3,6 +3,7 @@ package org.example.greenometer.entities
 import jakarta.persistence.*
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 
@@ -20,7 +21,7 @@ data class LogEntity(
     @Column(nullable = false)
     val quantity: Int = 1,
     @Column(nullable = false)
-    val entryDate: Date,
+    val entryDate: LocalDate,
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     var createdAt: LocalDateTime? = null,
