@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Produce</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+</head>
+<body>
+<main class="container">
+    <h1>New Produce</h1>
+    <a href="/admin/produce">&larr; Back to list</a>
+    <form method="post" action="/admin/produce">
+        <label>
+            Name
+            <input type="text" name="name" required>
+        </label>
+        <label>
+            Category
+            <select name="category" id="category" required>
+                <option value="">-- Select --</option>
+                <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>
+            </select>
+        </label>
+        <label>
+            Emoji
+            <select name="emoji" id="emoji" required>
+                <option value="">-- Select category first --</option>
+            </select>
+        </label>
+        <label>
+            Color
+            <select name="color" required>
+                <option value="">-- Select --</option>
+                <option th:each="c : ${colors}" th:value="${c}" th:text="${c}"></option>
+            </select>
+        </label>
+        <label>
+            Description
+            <textarea name="description"></textarea>
+        </label>
+        <button type="submit">Create</button>
+    </form>
+</main>
+<script>
+    const emojisByCategory = {
+        FRUIT: ["🍎", "🍏", "🍊", "🍋", "🍇", "🍉", "🍑", "🍒", "🍌", "🍍", "🥭", "🥝", "🍐", "🍈", "🥥"],
+        BERRY: ["🫐", "🍓", "🍒"],
+        VEGETABLE: ["🥕", "🥦", "🥬", "🧅", "🧄", "🌽", "🥒", "🫑", "🍆", "🥔", "🍅", "🌶️", "🥑", "🫛", "🫒", "🫜", "🍠", "🫚"],
+        MUSHROOM: ["🍄‍🟫"],
+        LEGUME: ["🫘"],
+        SEED: ["🌻", "🌱"],
+        HERB: ["🌿"],
+        NUT: ["🥜", "🌰"]
+    };
+
+    const categorySelect = document.getElementById("category");
+    const emojiSelect = document.getElementById("emoji");
+
+    function updateEmojis(selected) {
+        emojiSelect.innerHTML = "";
+        const emojis = emojisByCategory[categorySelect.value] || [];
+        if (!emojis.length) {
+            emojiSelect.innerHTML = '<option value="">-- Select category first --</option>';
+            return;
+        }
+        emojis.forEach(function (e) {
+            const opt = document.createElement("option");
+            opt.value = e;
+            opt.textContent = e;
+            if (selected && e === selected) opt.selected = true;
+            emojiSelect.appendChild(opt);
+        });
+    }
+
+    categorySelect.addEventListener("change", function () {
+        updateEmojis();
+    });
+</script>
+</body>
+</html>

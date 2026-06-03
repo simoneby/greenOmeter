@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Produce Admin</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+</head>
+<body>
+<main class="container">
+    <h1>Produce Admin</h1>
+    <a href="/admin/produce/new" role="button">+ New Produce</a>
+    <table>
+        <thead>
+        <tr>
+            <th>Emoji</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Color</th>
+            <th>Tags</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${produceList}">
+            <td th:text="${p.emoji}"></td>
+            <td th:text="${p.name}"></td>
+            <td th:text="${p.category}"></td>
+            <td th:text="${p.color}"></td>
+            <td th:text="${#strings.setJoin(p.tags, ', ')}"></td>
+            <td>
+                <a th:href="@{/admin/produce/{id}(id=${p.id})}">Edit</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
