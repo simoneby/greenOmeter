@@ -8,8 +8,11 @@ import java.util.*
 data class ProduceEntity(
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     val id: UUID = UUID.randomUUID(),
-    val name: String,
-    val emoji: String,
+    var name: String = "",
+    var emoji: String = "",
+    var category: String? = null,
+    var color: String? = null,
+    var description: String? = null,
     @ManyToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE])
     @JoinTable(
         name = "produce_tags",
@@ -17,4 +20,7 @@ data class ProduceEntity(
         inverseJoinColumns = [JoinColumn(name = "tag_id")],
     )
     val tags: MutableSet<TagEntity> = mutableSetOf(),
+
+    @OneToMany(mappedBy = "produce", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
+    val translations: MutableSet<ProduceTranslationEntity> = mutableSetOf(),
 )
